@@ -1,0 +1,73 @@
+body {
+	padding: 10px;
+}
+
+ul {
+	padding: 0;
+}
+ul li {
+	text-align: center;
+	list-style-type: none;
+}
+
+li a {
+    color: #fff;
+    background-color: red;
+    border: 2px solid white;
+    border-radius: 4px;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.header ul li a:last-child {
+    font-size: 0.9em;
+}
+
+body {
+    height: 101vh;
+}
+
+input[type=submit] {
+	float: right;
+}
+input[name^="id_"] {
+	display: none;
+}
+#up, #down {
+    border: 1px solid black;
+}
+
+.dropdown-menu {
+    width: 100%;
+    min-width: initial;
+}
+
+.headings{
+    text-align: center;
+}
+
+#num-course {
+    width: 120px;
+    margin-left: 2px;
+}
+
+.form-control {
+    display: inline;
+}
+
+@media screen and (min-width: 960px) {
+    #up, #down {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 360px){
+    select.form-control{
+    padding: 6px 0px;
+    }
+
+    .header{
+    	max-width: 95%;
+    	margin: auto;
+    }
+}
