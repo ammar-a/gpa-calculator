@@ -192,21 +192,27 @@
 	}
 
 	var cgpa = 0;
-	$('form').submit(function(e){
-			// e.preventDefault();
+	$('form').submit(function(e) {
+			e.preventDefault();
 			var weighted_gpa=0;
 			sum_credits = 0;
 	    for (var i = 1; i < numCourses + 1; i++) {
 				var gpa = parseFloat($("select[name=gpa_" + i + "]").val());
 				var credits = parseFloat($("select[name=credits_" + i + "]").val());
+				// console.log("gpa credits for course", gpa, credits);
 				if (!isNaN(gpa)) {
 					if (gpa == 5){
 						gpa--;
 					}
 					weighted_gpa += gpa * credits;
+					// console.log("mistake: ", weighted_gpa);
 					sum_credits += credits;
-					var prev_gpa =parseFloat($("input[name='previous-GPA']").val());
-					var prev_credits =parseFloat($("input[name='previous-credits']").val());
+				}
+
+	    }
+			// console.log("weighted_gpa rows: ", weighted_gpa, "sum_credits: ", sum_credits);
+			var prev_gpa =parseFloat($("input[name='previous-GPA']").val());
+			var prev_credits =parseFloat($("input[name='previous-credits']").val());
 					if (isNaN(prev_gpa)) {
 						$("input[name='previous-GPA']").val(0);
 					}
@@ -214,22 +220,22 @@
 						$("input[name='previous-credits']").val(0);
 					}
 
-					if ( prev_gpa > 0 && prev_credits > 0){
+					if ( prev_gpa >= 0 && prev_credits > 0){
 						weighted_gpa += prev_gpa * prev_credits;
 						sum_credits += prev_credits;
 					}
 
-				}
-
-	    }
 			if (sum_credits != 0) {
 
 
 				cgpa = (weighted_gpa / sum_credits).toFixed(2);
 			}
+			// console.log("cgpa val:" , cgpa);
 			$("form").append("<input name='cgpa' value='" + cgpa +"' style='display:none;'>");
 	    return true;
 	});
+
+
 	function add_options(course_number){
 		var cells = 'select[name="gpa_' + course_number +'"]';
 		var selected = $(cells).val();
