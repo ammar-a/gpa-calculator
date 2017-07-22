@@ -62,8 +62,9 @@ def list(request, *args, **kwargs):
         dict_["count"] = unique_count
         context['courses'].append(dict_)
     context['UNIV'] = UNIV
+    context['active'] = UNIV
     return render(request,'index.html',context)
 
 def about(request, *args, **kwargs):
-    context = {}
+    context = {"active": "about"}
     return render(request,'about.html',context)

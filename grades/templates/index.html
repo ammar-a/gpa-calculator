@@ -15,10 +15,10 @@
 <div class="header">
 		<div class="row">
 		<ul>
-			<li><a class="col-xs-3" href="about">About</a></li>
-			<li><a class="col-xs-3" href="uoft">UofT</a></li>
-			<li><a class="col-xs-3" href="ryerson">Ryerson</a></li>
-			<li><a class="col-xs-3" href="york">York</a></li>
+			<li><a class="col-xs-3" href="about" id="about">About</a></li>
+			<li><a class="col-xs-3" href="uoft" id="uoft">UofT</a></li>
+			<li><a class="col-xs-3" href="ryerson" id="ryerson">Ryerson</a></li>
+			<li><a class="col-xs-3" href="york" id="york">York</a></li>
 		</ul>
 		</div>
 </div>
@@ -104,7 +104,9 @@
 <script src="{% static "grades/js/" %}{{ UNIV }}.js"></script>
 <script>
 	var numCourses = {{ rows }};
-	var uni = "{{ UNIV }}";
+	$("#{{ active }}").attr("class",function(n, v){
+		return v + " active";
+	});
 
 	function get_row() {
 	var form_str = '<div class="row" id="row_' + (numCourses + 1) + `">

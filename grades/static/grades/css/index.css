@@ -60,7 +60,9 @@ input[name^="id_"] {
         display: none;
     }
 }
-
+.active {
+	border: 2px solid blue;
+}
 @media screen and (max-width: 360px){
     select.form-control{
     padding: 6px 0px;
