@@ -15,10 +15,10 @@
 <div class="header">
 		<div class="row">
 		<ul>
-			<li><a class="col-xs-3 active">UofT</a></li>
-			<li><a class="col-xs-3">Ryerson</a></li>
-			<li><a class="col-xs-3">York</a></li>
-			<li><a class="col-xs-3">OMSASS</a></li>
+			<li><a class="col-xs-3" href="about">About</a></li>
+			<li><a class="col-xs-3" href="uoft">UofT</a></li>
+			<li><a class="col-xs-3" href="ryerson">Ryerson</a></li>
+			<li><a class="col-xs-3" href="york">York</a></li>
 		</ul>
 		</div>
 </div>
@@ -38,7 +38,7 @@
 		<div class="col-xs-3">Credits</div>
 		<div class="col-xs-4">Marks</div>
 	</div>
-	<form method='POST' action='.'> {% csrf_token %}
+	<form method='POST' action='./{{UNIV}}'> {% csrf_token %}
 		<div class="row" id="row_0" style="display:hidden;"></div>
 		{% for course in courses %}
 		<div class="row" id="row_{{ course.count }}">
@@ -88,16 +88,24 @@
 			</div>
 		</div>
 	</div>
-	<button value="show" id="mult-button">Show/Hide multiple years</button>
 		<input type="submit" value="calculate">
+		<input id='cgpa' name='cgpa' value='0' style='display:none;'>
+		<input name="uni" value="{{UNIV}}" style='display:none;'>
+
 	</form>
+	<button value="show" id="mult-button">Show/Hide multiple years</button>
+
 	{% if cgpa %}
     <h3>Your cGPA is: {{ cgpa }}<h3>
 {% endif %}
 	<!-- <h3>Your GPA is: </h3> -->
 </body>
+
+<script src="{% static "grades/js/" %}{{ UNIV }}.js"></script>
 <script>
 	var numCourses = {{ rows }};
+	var uni = "{{ UNIV }}";
+
 	function get_row() {
 	var form_str = '<div class="row" id="row_' + (numCourses + 1) + `">
 			<div class="col-xs-5">
@@ -108,14 +116,12 @@
 			<div class="col-xs-3">
 				<div class="form-group">
 					<select class="form-control" name="credits_` + (numCourses + 1) + `">
-						<option selected="selected" value="0.5">0.5</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-xs-4">
 				<div class="form-group">
 					<select class="form-control" name="gpa_` + (numCourses + 1) +`">
-						<option selected="selected" value="None">None</option>
 					</select>
 				</div>
 			</div>
@@ -167,25 +173,8 @@
 
 	});
 
-	var options = `<option value="None">None</option>
-	<option value="5.00">A+: 90-100</option>
-	<option value="4.00">A : 85-89</option>
-	<option value="3.70">A-: 80-84</option>
-	<option value="3.30">B+: 77-79</option>
-	<option value="3.00">B : 73-76</option>
-	<option value="2.70">B-: 70-72</option>
-	<option value="2.30">C+: 67-69</option>
-	<option value="2.00">C : 63-66</option>
-	<option value="1.70">C-: 60-62</option>
-	<option value="1.30">D+: 57-59</option>
-	<option value="1.00">D : 53-56</option>
-	<option value="0.70">D-: 50-52</option>
-	<option value="0.00">F : 0-49</option>`;
-	var credit_options = `
-	<option value="0.0">0.0</option>
-	<option value="0.5">0.5</option>
-	<option value="1.0">1.0</option>
-	`
+
+
 	var i = 1 ;
 	for(i=1; i < numCourses+1; i++) {
 		add_options(i);
@@ -231,7 +220,9 @@
 				cgpa = (weighted_gpa / sum_credits).toFixed(2);
 			}
 			// console.log("cgpa val:" , cgpa);
-			$("form").append("<input name='cgpa' value='" + cgpa +"' style='display:none;'>");
+			var cgpa_element = "<input id='cgpa' name='cgpa' value='" + cgpa +"' style='display:none;'>";
+			$("#cgpa").remove();
+			$("form").append(cgpa_element);
 	    return true;
 	});
 

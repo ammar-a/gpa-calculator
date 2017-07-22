@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Grade, CGPA, MultGrade
 import json
 
@@ -13,16 +13,25 @@ def get_client_ip(request):
     return ip
 
 def list(request, *args, **kwargs):
-    print(request.POST)
+    path = request.path.strip('/')
+    print("path: ", path)
+    print("request: ", request)
+    if path == "uoft":
+        UNIV = 'uoft'
+    elif path == "york":
+        UNIV = 'york'
+    else:
+        UNIV = 'ryerson'
     user_ip = get_client_ip(request)
     if (request.method == "POST"):
         qd = request.POST
-        Grade.objects.filter(ip=user_ip).delete()
-        CGPA.objects.filter(ip=user_ip).delete()
-        CGPA.objects.create(cgpa=qd["cgpa"], ip=user_ip)
-        MultGrade.objects.filter(ip=user_ip).delete()
-        MultGrade.objects.create(gpa=qd["previous-GPA"], course=qd["previous-course"], credits=qd['previous-credits'], ip=user_ip)
-        for i in range(1, len(qd)//3):
+        UNIV = qd["uni"] # prevents user changes in url continuing to databases
+        Grade.objects.filter(ip=user_ip, university=UNIV).delete()
+        CGPA.objects.filter(ip=user_ip, university=UNIV).delete()
+        CGPA.objects.create(cgpa=qd["cgpa"], ip=user_ip, university=UNIV)
+        MultGrade.objects.filter(ip=user_ip, university=UNIV).delete()
+        MultGrade.objects.create(gpa=qd["previous-GPA"], course=qd["previous-course"], credits=qd['previous-credits'], ip=user_ip, university=UNIV)
+        for i in range(1, len(qd)//3 - 1):
             #qd contains 3 items per course row + a django token
             # course numberings start from 1
             course_key = "course_" + str(i)
@@ -31,12 +40,11 @@ def list(request, *args, **kwargs):
             print(type(qd[gpa_key]))
             print(qd[gpa_key])
             if qd[gpa_key] != "None": # if grade is none, i.e. an unused row is ignored
-                obj = Grade.objects.create(course=qd[course_key], gpa=qd[gpa_key], credits=qd[credits_key], ip=user_ip)
+                obj = Grade.objects.create(course=qd[course_key], gpa=qd[gpa_key], credits=qd[credits_key],university=UNIV, ip=user_ip)
                 obj.save()
-
-    qs = Grade.objects.filter(ip=user_ip)
-    qs2 = CGPA.objects.filter(ip=user_ip)
-    qs3 = MultGrade.objects.filter(ip=user_ip)
+    qs = Grade.objects.filter(ip=user_ip, university=UNIV)
+    qs2 = CGPA.objects.filter(ip=user_ip, university=UNIV)
+    qs3 = MultGrade.objects.filter(ip=user_ip, university=UNIV)
     context={"rows": len(qs), "courses":[]}
 
     if qs2:
@@ -44,7 +52,7 @@ def list(request, *args, **kwargs):
     if qs3:
         context["mult"] = qs3[0]
     else:
-        qs3 = MultGrade.objects.create(ip=user_ip, gpa=0, credits=0.0, course="" )
+        qs3 = MultGrade.objects.create(ip=user_ip, gpa=0, credits=0.0, course="", university=UNIV )
         context['mult']=qs3
     print(context)
     unique_count = 0
@@ -53,4 +61,9 @@ def list(request, *args, **kwargs):
         dict_ = course.get_dict_form()
         dict_["count"] = unique_count
         context['courses'].append(dict_)
+    context['UNIV'] = UNIV
     return render(request,'index.html',context)
+
+def about(request, *args, **kwargs):
+    context = {}
+    return render(request,'about.html',context)

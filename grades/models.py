@@ -4,6 +4,7 @@ import datetime
 # Create your models here.
 class Grade(models.Model):
     course = models.CharField(max_length=128)
+    university = models.CharField(max_length=4)
     gpa = models.DecimalField(max_digits=3, decimal_places=2)
     credits = models.DecimalField(max_digits=3, decimal_places=1)
     ip = models.GenericIPAddressField()
@@ -22,7 +23,7 @@ class Grade(models.Model):
 class CGPA(models.Model):
     cgpa = models.DecimalField(max_digits=3, decimal_places=2)
     ip = models.GenericIPAddressField()
-
+    university = models.CharField(max_length=4)
     def __str__(self):
         return "{} | {}".format(self.cgpa, self.ip)
 
@@ -31,7 +32,7 @@ class MultGrade(models.Model):
     gpa = models.DecimalField(max_digits=4, decimal_places=2)
     credits = models.DecimalField(max_digits=3, decimal_places=1)
     ip = models.GenericIPAddressField()
-
+    university = models.CharField(max_length=16)
     def __str__(self):
         return 'Course: {} | Credits: {} | GPA: {}'.format(self.course, self.credits, self.gpa)
 
