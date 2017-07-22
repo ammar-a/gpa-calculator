@@ -8,29 +8,27 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static "grades/css/index.css" %}">
-
-
 </head>
 <body class="container-fluid">
-<div class="header">
+	<div class="header">
 		<div class="row">
-		<ul>
-			<li><a class="col-xs-3" href="about" id="about">About</a></li>
-			<li><a class="col-xs-3" href="uoft" id="uoft">UofT</a></li>
-			<li><a class="col-xs-3" href="ryerson" id="ryerson">Ryerson</a></li>
-			<li><a class="col-xs-3" href="york" id="york">York</a></li>
-		</ul>
+			<ul>
+				<li><a class="col-xs-3" href="about" id="about">About</a></li>
+				<li><a class="col-xs-3" href="uoft" id="uoft">UofT</a></li>
+				<li><a class="col-xs-3" href="ryerson" id="ryerson">Ryerson</a></li>
+				<li><a class="col-xs-3" href="york" id="york">York</a></li>
+			</ul>
 		</div>
-</div>
+	</div>
 	<h2>Find Your GPA!</h2>
 
 	<h3>Enter Number of Courses:</h3>
 	{% load grades_extras %}
-		<div class="form-group">
-			<input id="num-course" type="number" class="form-control" min="0" max="200" value="{{ rows }}">
-					<button id="up" class="btn">+1</button>
-					<button id="down" class="btn">-1</button>
-		</div>
+	<div class="form-group">
+		<input id="num-course" type="number" class="form-control" min="0" max="200" value="{{ rows }}">
+		<button id="up" class="btn">+1</button>
+		<button id="down" class="btn">-1</button>
+	</div>
 
 
 	<div class="row headings">
@@ -48,85 +46,84 @@
 				</div>
 			</div>
 			<div class="col-xs-3">
-					<div class="form-group">
-						<select class="form-control" name="credits_{{course.count}}">
-							<option selected="selected" value="{{course.credits}}">{{ course.credits }}</option>
-						</select>
-					</div>
+				<div class="form-group">
+					<select class="form-control" name="credits_{{course.count}}">
+						<option selected="selected" value="{{course.credits}}">{{ course.credits }}</option>
+					</select>
+				</div>
 			</div>
 			<div class="col-xs-4">
-					<div class="form-group">
-						<select class="form-control" name="gpa_{{ course.count}}">
-							<option selected="selected" value="{{ course.gpa }}">{{ course.gpa | user_friendly_label}}</option>
-						</select>
-					</div>
+				<div class="form-group">
+					<select class="form-control" name="gpa_{{ course.count}}">
+						<option selected="selected" value="{{ course.gpa }}">{{ course.gpa | user_friendly_label}}</option>
+					</select>
+				</div>
 			</div>
 		</div>
 		{% endfor %}
 		<div id="mult">
-		<p>Multi-year (Add many courses at once)<p>
-		<div class="row headings" style="display:none">
-			<div class="col-xs-5">Course Title(s)</div>
-			<div class="col-xs-3">Credits</div>
-			<div class="col-xs-4">Mark</div>
-		</div>
-		<div class="row" id="multiple">
-			<div class="col-xs-5">
-				<div class="form-group">
-					<input type="text" class="form-control" name="previous-course" placeholder="Multiple courses/years" value="{{ mult.course }}">
-				</div>
+			<p>Multi-year (Add many courses at once)<p>
+			<div class="row headings" style="display:none">
+				<div class="col-xs-5">Course Title(s)</div>
+				<div class="col-xs-3">Credits</div>
+				<div class="col-xs-4">Mark</div>
 			</div>
-			<div class="col-xs-3">
+			<div class="row" id="multiple">
+				<div class="col-xs-5">
+					<div class="form-group">
+						<input type="text" class="form-control" name="previous-course" placeholder="Multiple courses/years" value="{{ mult.course }}">
+					</div>
+				</div>
+				<div class="col-xs-3">
 					<div class="form-group">
 						<input class="form-control" type="number" min="0" step="0.5" name="previous-credits" value="{{mult.credits}}">
 					</div>
-			</div>
-			<div class="col-xs-4">
+				</div>
+				<div class="col-xs-4">
 					<div class="form-group">
 						<input class="form-control" type="number" min="0" max="4.0" step="0.01" value="{{mult.gpa}}" name="previous-GPA" value="None">
 					</div>
+				</div>
 			</div>
 		</div>
-	</div>
 		<input type="submit" value="calculate">
 		<input id='cgpa' name='cgpa' value='0' style='display:none;'>
 		<input name="uni" value="{{UNIV}}" style='display:none;'>
-
 	</form>
 	<button value="show" id="mult-button">Show/Hide multiple years</button>
 
 	{% if cgpa %}
-    <h3>Your cGPA is: {{ cgpa }}<h3>
-{% endif %}
-	<!-- <h3>Your GPA is: </h3> -->
-</body>
+	<h3>Your cGPA is: {{ cgpa }}<h3>
+	{% endif %}
+		<!-- <h3>Your GPA is: </h3> -->
+	</body>
 
-<script src="{% static "grades/js/" %}{{ UNIV }}.js"></script>
-<script>
+	<script src="{% static "grades/js/" %}{{ UNIV }}.js"></script>
+	<script>
 	var numCourses = {{ rows }};
 	$("#{{ active }}").attr("class",function(n, v){
 		return v + " active";
 	});
 
 	function get_row() {
-	var form_str = '<div class="row" id="row_' + (numCourses + 1) + `">
-			<div class="col-xs-5">
-				<div class="form-group">
-					<input type="text" class="form-control" name="course_` + (numCourses + 1) + '" placeholder="Couse (optional)">' +
-				`</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="form-group">
-					<select class="form-control" name="credits_` + (numCourses + 1) + `">
-					</select>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class="form-group">
-					<select class="form-control" name="gpa_` + (numCourses + 1) +`">
-					</select>
-				</div>
-			</div>
+		var form_str = '<div class="row" id="row_' + (numCourses + 1) + `">
+		<div class="col-xs-5">
+		<div class="form-group">
+		<input type="text" class="form-control" name="course_` + (numCourses + 1) + '" placeholder="Couse (optional)">' +
+		`</div>
+		</div>
+		<div class="col-xs-3">
+		<div class="form-group">
+		<select class="form-control" name="credits_` + (numCourses + 1) + `">
+		</select>
+		</div>
+		</div>
+		<div class="col-xs-4">
+		<div class="form-group">
+		<select class="form-control" name="gpa_` + (numCourses + 1) +`">
+		</select>
+		</div>
+		</div>
 		</div>`;
 		return form_str;
 	};
@@ -184,48 +181,48 @@
 
 	var cgpa = 0;
 	$('form').submit(function(e) {
-			//e.preventDefault();
-			var weighted_gpa=0;
-			sum_credits = 0;
-	    for (var i = 1; i < numCourses + 1; i++) {
-				var gpa = parseFloat($("select[name=gpa_" + i + "]").val());
-				var credits = parseFloat($("select[name=credits_" + i + "]").val());
-				// console.log("gpa credits for course", gpa, credits);
-				if (!isNaN(gpa)) {
-					if (gpa == 5){
-						gpa--;
-					}
-					weighted_gpa += gpa * credits;
-					// console.log("mistake: ", weighted_gpa);
-					sum_credits += credits;
+		//e.preventDefault();
+		var weighted_gpa=0;
+		sum_credits = 0;
+		for (var i = 1; i < numCourses + 1; i++) {
+			var gpa = parseFloat($("select[name=gpa_" + i + "]").val());
+			var credits = parseFloat($("select[name=credits_" + i + "]").val());
+			// console.log("gpa credits for course", gpa, credits);
+			if (!isNaN(gpa)) {
+				if (gpa == 5){
+					gpa--;
 				}
-
-	    }
-			// console.log("weighted_gpa rows: ", weighted_gpa, "sum_credits: ", sum_credits);
-			var prev_gpa =parseFloat($("input[name='previous-GPA']").val());
-			var prev_credits =parseFloat($("input[name='previous-credits']").val());
-					if (isNaN(prev_gpa)) {
-						$("input[name='previous-GPA']").val(0);
-					}
-					if (isNaN(prev_credits)) {
-						$("input[name='previous-credits']").val(0);
-					}
-
-					if ( prev_gpa >= 0 && prev_credits > 0){
-						weighted_gpa += prev_gpa * prev_credits;
-						sum_credits += prev_credits;
-					}
-
-			if (sum_credits != 0) {
-
-
-				cgpa = (weighted_gpa / sum_credits).toFixed(2);
+				weighted_gpa += gpa * credits;
+				// console.log("mistake: ", weighted_gpa);
+				sum_credits += credits;
 			}
-			// console.log("cgpa val:" , cgpa);
-			var cgpa_element = "<input id='cgpa' name='cgpa' value='" + cgpa +"' style='display:none;'>";
-			$("#cgpa").remove();
-			$("form").append(cgpa_element);
-	    return true;
+
+		}
+		// console.log("weighted_gpa rows: ", weighted_gpa, "sum_credits: ", sum_credits);
+		var prev_gpa =parseFloat($("input[name='previous-GPA']").val());
+		var prev_credits =parseFloat($("input[name='previous-credits']").val());
+		if (isNaN(prev_gpa)) {
+			$("input[name='previous-GPA']").val(0);
+		}
+		if (isNaN(prev_credits)) {
+			$("input[name='previous-credits']").val(0);
+		}
+
+		if ( prev_gpa >= 0 && prev_credits > 0){
+			weighted_gpa += prev_gpa * prev_credits;
+			sum_credits += prev_credits;
+		}
+
+		if (sum_credits != 0) {
+
+
+			cgpa = (weighted_gpa / sum_credits).toFixed(2);
+		}
+		// console.log("cgpa val:" , cgpa);
+		var cgpa_element = "<input id='cgpa' name='cgpa' value='" + cgpa +"' style='display:none;'>";
+		$("#cgpa").remove();
+		$("form").append(cgpa_element);
+		return true;
 	});
 
 
@@ -270,7 +267,7 @@
 		console.log($("#num-course").val());
 		$("#num-course").keyup();
 	});
-</script>
+	</script>
 
 
 </html>
