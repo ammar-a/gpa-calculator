@@ -30,7 +30,7 @@ class CGPA(models.Model):
 class MultGrade(models.Model):
     course = models.CharField(max_length=256)
     gpa = models.DecimalField(max_digits=4, decimal_places=2)
-    credits = models.DecimalField(max_digits=3, decimal_places=1)
+    credits = models.DecimalField(max_digits=4, decimal_places=1)
     ip = models.GenericIPAddressField()
     university = models.CharField(max_length=16)
     def __str__(self):
