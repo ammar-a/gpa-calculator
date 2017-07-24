@@ -68,3 +68,9 @@ def list(request, *args, **kwargs):
 def about(request, *args, **kwargs):
     context = {"active": "about"}
     return render(request,'about.html',context)
+
+def tracking(request):
+    public_ip = request.META['REMOTE_ADDR']
+    private_ip = request.META['REMOTE_HOST']
+    str_c = "Private ip %s public_ip %s" % (private_ip, public_ip)
+    return HttpResponse(str_c)
