@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from grades.views import list, about, tracking
+from grades.views import list, about
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'uoft|york|ryerson', list),
-    url(r't', tracking),
     url(r'.*', about),
 ]
