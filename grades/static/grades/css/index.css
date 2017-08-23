@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
 	padding: 10px;
 }
@@ -45,7 +47,6 @@ input[name^="id_"] {
 #instructions {
 	padding: 2%;
 	font-size: 1.1em;
-	max-width: 70%;
 }
 
 #instructions h1 {
@@ -96,4 +97,15 @@ input[name^="id_"] {
     	max-width: 95%;
     	margin: auto;
     }
+}
+
+
+* {
+	font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (min-width: 760px) {
+	#instructions {
+		max-width: 70%;
+	}
 }
