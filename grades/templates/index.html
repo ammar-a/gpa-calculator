@@ -1,68 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>GPA Calculator</title></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static "grades/css/index.css" %}">
-</head>
-<body class="container-fluid">
-	<div class="header">
-		<div class="row">
-			<ul>
-				<li><a class="col-xs-3" href="about" id="about">About</a></li>
-				<li><a class="col-xs-3" href="uoft" id="uoft">UofT</a></li>
-				<li><a class="col-xs-3" href="ryerson" id="ryerson">Ryerson</a></li>
-				<li><a class="col-xs-3" href="york" id="york">York</a></li>
-			</ul>
-		</div>
-	</div>
-	<h2>Find Your GPA!</h2>
+{% extends "base.html" %}
+{% block content %}
 
-	<h3>Enter Number of Courses:</h3>
-	{% load grades_extras %}
-	<div class="form-group">
-		<input id="num-course" type="number" class="form-control" min="0" max="200" value="{{ rows }}">
-		<button id="up" class="btn">+1</button>
-		<button id="down" class="btn">-1</button>
-	</div>
+<h2>Find Your GPA!</h2>
+
+<h3>Enter Number of Courses:</h3>
+{% load grades_extras %}
+{% load staticfiles %}
+<div class="form-group">
+	<input id="num-course" type="number" class="form-control" min="0" max="200" value="{{ rows }}">
+	<button id="up" class="btn">+1</button>
+	<button id="down" class="btn">-1</button>
+</div>
 
 
-	<div class="row headings">
-		<div class="col-xs-5">Course Title</div>
-		<div class="col-xs-3">Credits</div>
-		<div class="col-xs-4">Marks</div>
-	</div>
-	<form method='POST' action='./{{UNIV}}'> {% csrf_token %}
-		<div class="row" id="row_0" style="display:hidden;"></div>
-		{% for course in courses %}
-		<div class="row" id="row_{{ course.count }}">
-			<div class="col-xs-5">
-				<div class="form-group">
-					<input type="text" class="form-control" name="course_{{ course.count }}" placeholder="Couse (optional)" value="{{course.course}}">
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="form-group">
-					<select class="form-control" name="credits_{{course.count}}">
-						<option selected="selected" value="{{course.credits}}">{{ course.credits }}</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class="form-group">
-					<select class="form-control" name="gpa_{{ course.count}}">
-						<option selected="selected" value="{{ course.gpa }}">{{ course.gpa | user_friendly_label}}</option>
-					</select>
-				</div>
+<div class="row headings">
+	<div class="col-xs-5">Course Title</div>
+	<div class="col-xs-3">Credits</div>
+	<div class="col-xs-4">Marks</div>
+</div>
+<form method='POST' action='./{{UNIV}}'> {% csrf_token %}
+	<div class="row" id="row_0" style="display:hidden;"></div>
+	{% for course in courses %}
+	<div class="row" id="row_{{ course.count }}">
+		<div class="col-xs-5">
+			<div class="form-group">
+				<input type="text" class="form-control" name="course_{{ course.count }}" placeholder="Couse (optional)" value="{{course.course}}">
 			</div>
 		</div>
-		{% endfor %}
-		<div id="mult">
-			<p>Multi-year (Add many courses at once)<p>
+		<div class="col-xs-3">
+			<div class="form-group">
+				<select class="form-control" name="credits_{{course.count}}">
+					<option selected="selected" value="{{course.credits}}">{{ course.credits }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-xs-4">
+			<div class="form-group">
+				<select class="form-control" name="gpa_{{ course.count}}">
+					<option selected="selected" value="{{ course.gpa }}">{{ course.gpa | user_friendly_label}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	<div id="mult">
+		<p>Multi-year (Add many courses at once)<p>
 			<div class="row headings" style="display:none">
 				<div class="col-xs-5">Course Title(s)</div>
 				<div class="col-xs-3">Credits</div>
@@ -94,16 +76,13 @@
 
 	{% if cgpa %}
 	<h3>Your cGPA is: {{ cgpa }}<h3>
-	{% endif %}
+		{% endif %}
 		<!-- <h3>Your GPA is: </h3> -->
 	</body>
 
 	<script src="{% static "grades/js/" %}{{ UNIV }}.js"></script>
 	<script>
 	var numCourses = {{ rows }};
-	$("#{{ active }}").attr("class",function(n, v){
-		return v + " active";
-	});
 
 	function get_row() {
 		var form_str = '<div class="row" id="row_' + (numCourses + 1) + `">
@@ -268,6 +247,4 @@
 		$("#num-course").keyup();
 	});
 	</script>
-
-
-</html>
+	{% endblock %}

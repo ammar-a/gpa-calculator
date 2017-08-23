@@ -17,14 +17,14 @@ def list(request, *args, **kwargs):
     print("path: ", path)
     print("request: ", request)
     if path == "uoft":
-        UNIV = 'uoft'
+        UNIV = "uoft"
     elif path == "york":
-        UNIV = 'york'
+        UNIV = "york"
     else:
-        UNIV = 'ryerson'
+        UNIV = "ryerson"
     user_ip = get_client_ip(request)
     if (request.method == "POST"):
-        qd = request.POST
+        qd = request.POST #query dictionary
         UNIV = qd["uni"] # prevents user changes in url continuing to databases
         Grade.objects.filter(ip=user_ip, university=UNIV).delete()
         CGPA.objects.filter(ip=user_ip, university=UNIV).delete()

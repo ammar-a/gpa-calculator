@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>GPA Calculator</title></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static "grades/css/index.css" %}">
+{% extends "base.html" %}
+{% block content %}
 
-
-</head>
-<body class="container-fluid">
-<div class="header">
-		<div class="row">
-		<ul>
-      <li><a class="col-xs-3 active" href="about" id="about">About</a></li>
-			<li><a class="col-xs-3" href="uoft">UofT</a></li>
-			<li><a class="col-xs-3" href="ryerson">Ryerson</a></li>
-			<li><a class="col-xs-3" href="york">York</a></li>
-		</ul>
-		</div>
-</div>
 Use this calculator to predict your future gpa! When you click submit, the calculator
 will save your marks, meaning you can come back a minute, week or semesters later, and not have
 to re enter marks.
-</body>
-</html>
+
+{% endblock %}
