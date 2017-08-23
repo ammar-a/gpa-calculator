@@ -1,8 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 
-Use this calculator to predict your future gpa! When you click submit, the calculator
-will save your marks, meaning you can come back a minute, week or semesters later, and not have
-to re enter marks.
+<div id="instructions" >
+<h1>Welcome to tGPA!</h1>
+<p>Use this tool to predict your future gpa / set goals for the upcoming semester! You
+can also use it to calculate your current gpa if it has not been officially posted yet.</p>
+
+<p>tGPA will <span id="saved"> save</span> your marks, so that you can come back weeks
+or months later and redo your calculations without re-entering all your marks!</p>
+
+<p>Tip: use the up and down arrow keys while entering number of courses to quickly add or remove
+rows.</p>
+
+</div>
+
+<p id="disclaimer">Note: this is not an official tool for UofT, Ryerson or York.</p>
 
 {% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GPA Calculator</title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static "grades/css/index.css" %}">
+
+
+</head>
+<body class="container-fluid">
+<div class="header">
+		<div class="row">
+		<ul>
+      <li><a class="col-xs-3" href="about" id="about">About</a></li>
+			<li><a class="col-xs-3" href="uoft">UofT</a></li>
+			<li><a class="col-xs-3" href="ryerson">Ryerson</a></li>
+			<li><a class="col-xs-3" href="york">York</a></li>
+		</ul>
+		</div>
+</div>
+{% block content %}{% endblock %}
+</body>
+
+<script>
+$("a[href='{{ active }}'").attr("class",function(n, v){
+  return v + " active";
+});
+</script>
+</html>

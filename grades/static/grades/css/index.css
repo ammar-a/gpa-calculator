@@ -33,13 +33,36 @@ body {
 input[type=submit] {
 	float: right;
 }
+
 input[name^="id_"] {
 	display: none;
 }
+
 #up, #down {
     border: 1px solid black;
 }
 
+#instructions {
+	padding: 2%;
+	font-size: 1.1em;
+	max-width: 70%;
+}
+
+#instructions h1 {
+	padding-bottom: : 2%;
+}
+#saved {
+	font-weight: bold;
+}
+
+#disclaimer {
+	color: lightgray;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
 .dropdown-menu {
     width: 100%;
     min-width: initial;
