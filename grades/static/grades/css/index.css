@@ -28,9 +28,7 @@ li a, li a:hover {
 	border: 2px solid blue;
 }
 
-body {
-    height: 101vh;
-}
+
 
 input[type=submit] {
 	float: right;
@@ -107,5 +105,8 @@ input[name^="id_"] {
 @media screen and (min-width: 760px) {
 	#instructions {
 		max-width: 70%;
+	}
+	body {
+	    height: 101vh;
 	}
 }
