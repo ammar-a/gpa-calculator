@@ -66,7 +66,7 @@ def list(request, *args, **kwargs):
     context['UNIV'] = UNIV
     context['active'] = UNIV
     response = render(request,'index.html',context)
-    response.set_cookie('user_id', user_id)
+    response.set_cookie('user_id', user_id, max_age=60*60*24*365*4)
     return response
 
 def about(request, *args, **kwargs):
