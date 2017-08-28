@@ -1,5 +1,5 @@
 # tGPA
 
-For the three main universities in Toronto.
-
 [Demo](https://tgpa.herokuapp.com/)
+
+For the three biggest universities in Toronto. Helps students set goals, and track their progress.
